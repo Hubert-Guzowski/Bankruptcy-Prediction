@@ -1,9 +1,8 @@
-import pandas as pd
-import numpy as np
-from sklearn import preprocessing
 import matplotlib.pyplot as plt
+import numpy as np
+import pandas as pd
 import seaborn as sn
-
+from sklearn import preprocessing
 
 from bankruptcy_model.utils.data_loading import load_dataset_by_year
 from bankruptcy_model.utils.data_prep import change_class_values_to_binary
@@ -41,18 +40,18 @@ def plot_corrmatrix(year):
     data = load_dataset_by_year(year)
     data = change_class_values_to_binary(data)
     corr_matrix = data.corr()
-    plt.figure(figsize=(20,20))
+    plt.figure(figsize=(20, 20))
     sn.heatmap(corr_matrix, cmap='coolwarm')
     plt.show()
 
 
 def get_subset(data, bankrupt):
-    subset = data[data['bankrupt']==bankrupt]
+    subset = data[data['bankrupt'] == bankrupt]
     return subset
 
 
 def get_table_with_mean_and_sd(data):
-    data = remove_outliers(data, data.iloc[: , :-1], verbose = False)
+    data = remove_outliers(data, data.iloc[:, :-1], verbose=False)
     data.loc[data['class'].astype(str).str.contains("0"), 'bankrupt'] = 0
     data.loc[data['class'].astype(str).str.contains("1"), 'bankrupt'] = 1
     bankrupt = get_subset(data, 1)
@@ -64,9 +63,3 @@ def get_table_with_mean_and_sd(data):
     table['sd_non_bankrupt'] = np.std(non_bankrupt)
     table = table[:-2]
     return table
-
-
-
-
-
-
